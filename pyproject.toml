@@ -1,0 +1,17 @@
+[project]
+name = "byop"
+version = "1.0.0"
+description = "Multi-Object Tracking with YOLOv8 and BoT-SORT"
+requires-python = ">=3.9"
+dependencies = [
+    "ultralytics==8.3.233",
+    "boxmot",
+    "opencv-python==4.12.0.88",
+    "numpy==2.2.6",
+    "torch",
+    "torchvision",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
