@@ -3,32 +3,30 @@ import os
 import numpy as np
 from ultralytics import YOLO
 from botsort_clipVitb16_tracker import BoTSORTTracker
+from config_loader import load_config
 
-# ------------------- PATHS -------------------
-frames_path = r"C:\Users\Ayyan Aftab\Downloads\MOT17\MOT17\train\MOT17-04-FRCNN\img1"
-output_video = "mot17_clipVitB16(1)_tracked.mp4"
+config = load_config(config_path='config.yaml')
+detect_config = config['detection']
+path_config = config['paths']
+tracker_config = config['tracker']
+frames_path = path_config['frames_path']
+output_video = "mot17_clipVitB16(3)_tracked.mp4"
 model_path = "yolov8m.pt"
 
-# ------------------- SETTINGS -------------------
-confidence_threshold = 0.5
-target_classes = [0]  # person class only
-fps = 30
+confidence_threshold = detect_config['confidence_threshold']
+target_classes = None  
+fps = tracker_config['frame_rate']
 
-print("=" * 60)
-print("BoT-SORT Tracker with CLIP ReID (GPU FP32)")
-print("=" * 60)
+print("BoT-SORT Tracker with CLIP ReID (GPU FP32)")         
 
-# ------------------- LOAD YOLO -------------------
 print("\n[1/2] Loading YOLOv8 model...")
 model = YOLO(model_path)
 print(f"      ✓ Loaded: {model_path}")
 
-# ------------------- INIT TRACKER -------------------
 print("\n[2/2] Initializing BoT-SORT tracker...")
 tracker = BoTSORTTracker(device='0')  # GPU FP32
 print("      ✓ Tracker initialized")
 
-# ------------------- LOAD FRAMES -------------------
 frame_files = sorted([
     f for f in os.listdir(frames_path)
     if f.lower().endswith(('.jpg', '.jpeg', '.png'))
@@ -45,26 +43,21 @@ if first_frame is None:
 
 height, width = first_frame.shape[:2]
 
-# ------------------- VIDEO WRITER -------------------
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 video = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
 if not video.isOpened():
     raise RuntimeError("Could not create output video")
 
-print("\n" + "-" * 60)
 print(f"Input:         {frames_path}")
 print(f"Output:        {output_video}")
 print(f"Total Frames:  {total_frames}")
 print(f"Resolution:    {width}x{height} @ {fps}fps")
-print(f"Target Class:  Person (0)")
-print("-" * 60 + "\n")
+print(f"All classes")
 
-# ------------------- TRACK COLORS -------------------
 track_colors = {}
 
 print("Processing frames...")
 
-# =================== MAIN LOOP ===================
 for i, frame_name in enumerate(frame_files):
     frame_path = os.path.join(frames_path, frame_name)
     frame = cv2.imread(frame_path)
@@ -73,7 +66,6 @@ for i, frame_name in enumerate(frame_files):
         print(f"⚠ Warning: Could not read {frame_name}, skipping...")
         continue
 
-    # ---------- YOLO DETECTION ----------
     results = model(
         frame,
         conf=confidence_threshold,
@@ -92,10 +84,8 @@ for i, frame_name in enumerate(frame_files):
             float(conf), cls
         ])
 
-    # ---------- TRACKING ----------
     tracks = tracker.update(detections, frame)
 
-    # ---------- DRAW ----------
     annotated_frame = frame.copy()
 
     for track in tracks:
@@ -134,7 +124,6 @@ for i, frame_name in enumerate(frame_files):
             2
         )
 
-    # ---------- INFO ----------
     info_text = (
         f"Frame: {i+1}/{total_frames} | "
         f"Detections: {len(detections)} | "
@@ -151,23 +140,18 @@ for i, frame_name in enumerate(frame_files):
         2
     )
 
-    # ---------- WRITE ----------
     video.write(annotated_frame)
 
     if (i + 1) % 50 == 0 or (i + 1) == total_frames:
         progress = (i + 1) / total_frames * 100
         print(f"[{i+1:5d}/{total_frames}] {progress:5.1f}% | Active Tracks: {len(tracks)}")
 
-# =================== CLEANUP ===================
 video.release()
 
-print("\n" + "=" * 60)
 print("COMPLETE!")
-print("=" * 60)
 print(f"✓ Video saved:        {output_video}")
 print(f"✓ Frames processed:  {total_frames}")
 print(f"✓ Unique tracks:     {len(track_colors)}")
-print("=" * 60)
 
 def get_color_for_id(track_id):
     """
