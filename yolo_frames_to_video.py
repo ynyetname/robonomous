@@ -10,8 +10,9 @@ detect_config = config['detection']
 path_config = config['paths']
 tracker_config = config['tracker']
 frames_path = path_config['frames_path']
-output_video = "mot17_clipVitB16(3)_tracked.mp4"
+output_video = "mot17_clipVitB16(4)_tracked.mp4"
 model_path = "yolov8m.pt"
+pred_file = open("predictions.txt", "w")
 
 confidence_threshold = detect_config['confidence_threshold']
 target_classes = None  
@@ -36,7 +37,6 @@ total_frames = len(frame_files)
 if total_frames == 0:
     raise RuntimeError(f"No frames found in {frames_path}")
 
-# Read first frame for video info
 first_frame = cv2.imread(os.path.join(frames_path, frame_files[0]))
 if first_frame is None:
     raise RuntimeError("Could not read first frame")
@@ -63,7 +63,7 @@ for i, frame_name in enumerate(frame_files):
     frame = cv2.imread(frame_path)
 
     if frame is None:
-        print(f"⚠ Warning: Could not read {frame_name}, skipping...")
+        print(f"Warning: Could not read {frame_name}, skipping.")
         continue
 
     results = model(
@@ -91,6 +91,15 @@ for i, frame_name in enumerate(frame_files):
     for track in tracks:
         x1, y1, x2, y2 = map(int, track[:4])
         track_id = int(track[4])
+
+        w = x2 - x1
+        h = y2 - y1
+
+        frame_id = i + 1  # MOT frame index starts from 1
+
+        pred_file.write(
+            f"{frame_id},{track_id},{x1},{y1},{w},{h}\n"
+        )
 
         if track_id not in track_colors:
             np.random.seed(track_id)
@@ -147,16 +156,16 @@ for i, frame_name in enumerate(frame_files):
         print(f"[{i+1:5d}/{total_frames}] {progress:5.1f}% | Active Tracks: {len(tracks)}")
 
 video.release()
+pred_file.close()
 
-print("COMPLETE!")
-print(f"✓ Video saved:        {output_video}")
-print(f"✓ Frames processed:  {total_frames}")
-print(f"✓ Unique tracks:     {len(track_colors)}")
+print(f"Video saved:        {output_video}")
+print(f"Frames processed:  {total_frames}")
+print(f"Unique tracks:     {len(track_colors)}")
 
 def get_color_for_id(track_id):
     """
-    Generate a unique color for each track ID
+    Generating a unique color for each track ID
     """
     np.random.seed(track_id)
-    color = tuple(map(int, np.random. randint(0, 255, 3)))
+    color = tuple(map(int, np.random.randint(0, 255, 3)))
     return color
