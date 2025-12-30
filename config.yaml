@@ -1,29 +1,33 @@
 # YOLOv8 Detection Settings
 detection:
   model: "yolov8m.pt"
-  confidence_threshold: 0.5
-  target_classes: [0]  # person class only
-
+  confidence_threshold: 0.01
+  target_classes: [0]  # Person class
+  
 # BoT-SORT Tracker Settings
 tracker:
   reid_weights: "clip_market1501.pt"
   device: "0"
   half: false
-  track_high_thresh: 0.25
-  track_low_thresh: 0.05
-  new_track_thresh: 0.6
+  track_high_thresh: 0.05
+  track_low_thresh: 0.01
+  new_track_thresh: 0.05
   match_thresh: 0.8
-  proximity_thresh: 0.5
-  appearance_thresh: 0.25
-  track_buffer: 300
+  proximity_thresh: 0.8
+  appearance_thresh: 0.15
+  track_buffer: 1200
   frame_rate: 30
 
 # Video Settings
 video:
   fps: 30
   codec: "mp4v"
+  output_video_name: "mot17_clipVitB16(6)_tracked.mp4"
 
 # Paths
 paths:
   frames_path: "C:/Users/Ayyan Aftab/Downloads/MOT17/MOT17/train/MOT17-04-FRCNN/img1"
   output_video: "mot17_tracked.mp4"
+  gtfile_path: "C:/Users/Ayyan Aftab/Downloads/MOT17/MOT17/train/MOT17-04-FRCNN/gt/gt.txt"
+  predictions_path: "predictions.txt"
+  predictions_cleaned_path: "predictions_cleaned.txt"
