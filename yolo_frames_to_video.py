@@ -6,27 +6,30 @@ from botsort_clipVitb16_tracker import BoTSORTTracker
 from config_loader import load_config
 
 config = load_config(config_path='config.yaml')
+
 detect_config = config['detection']
 path_config = config['paths']
 tracker_config = config['tracker']
+video_config = config['video']
+
 frames_path = path_config['frames_path']
-output_video = "mot17_clipVitB16(4)_tracked.mp4"
+output_video = video_config['output_video_name']
 model_path = "yolov8m.pt"
 pred_file = open("predictions.txt", "w")
 
 confidence_threshold = detect_config['confidence_threshold']
-target_classes = None  
-fps = tracker_config['frame_rate']
+target_classes = detect_config['target_classes']  
+fps = tracker_config['frame_rate']   
 
-print("BoT-SORT Tracker with CLIP ReID (GPU FP32)")         
+print("BoT-SORT Tracker with CLIP ReID")         
 
-print("\n[1/2] Loading YOLOv8 model...")
+print("\n[1/2] Loading YOLOv8 model")
 model = YOLO(model_path)
-print(f"      ✓ Loaded: {model_path}")
+print(f" Loaded: {model_path}")
 
-print("\n[2/2] Initializing BoT-SORT tracker...")
-tracker = BoTSORTTracker(device='0')  # GPU FP32
-print("      ✓ Tracker initialized")
+print("\n[2/2] Initializing BoT-SORT tracker")
+tracker = BoTSORTTracker(tracker_config['device'])    
+print("Tracker initialized")
 
 frame_files = sorted([
     f for f in os.listdir(frames_path)
@@ -48,15 +51,15 @@ video = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
 if not video.isOpened():
     raise RuntimeError("Could not create output video")
 
-print(f"Input:         {frames_path}")
-print(f"Output:        {output_video}")
-print(f"Total Frames:  {total_frames}")
-print(f"Resolution:    {width}x{height} @ {fps}fps")
+print(f"Input:{frames_path}")
+print(f"Output:{output_video}")
+print(f"Total Frames:{total_frames}")
+print(f"Resolution:{width}x{height} @ {fps}fps")
 print(f"All classes")
 
 track_colors = {}
 
-print("Processing frames...")
+print("Processing frames")
 
 for i, frame_name in enumerate(frame_files):
     frame_path = os.path.join(frames_path, frame_name)
@@ -86,20 +89,23 @@ for i, frame_name in enumerate(frame_files):
 
     tracks = tracker.update(detections, frame)
 
+    if i == 0:  # Debug first frame
+        print(f"Frame 1: YOLO detections={len(detections)}, Tracker outputs={len(tracks)}")
+
+    # Write tracker outputs (stable IDs) instead of raw detections
+    for track in tracks:
+        x1, y1, x2, y2 = map(int, track[:4])
+        track_id = int(track[4])
+        w = x2 - x1
+        h = y2 - y1
+        frame_id = i + 1
+        pred_file.write(f"{frame_id},{track_id},{x1},{y1},{w},{h}\n")
+
     annotated_frame = frame.copy()
 
     for track in tracks:
         x1, y1, x2, y2 = map(int, track[:4])
         track_id = int(track[4])
-
-        w = x2 - x1
-        h = y2 - y1
-
-        frame_id = i + 1  # MOT frame index starts from 1
-
-        pred_file.write(
-            f"{frame_id},{track_id},{x1},{y1},{w},{h}\n"
-        )
 
         if track_id not in track_colors:
             np.random.seed(track_id)
@@ -134,9 +140,9 @@ for i, frame_name in enumerate(frame_files):
         )
 
     info_text = (
-        f"Frame: {i+1}/{total_frames} | "
-        f"Detections: {len(detections)} | "
-        f"Tracks: {len(tracks)}"
+        f"Frame:{i+1}/{total_frames} | "
+        f"Detections:{len(detections)} | "
+        f"Tracks:{len(tracks)}"
     )
 
     cv2.putText(
@@ -158,9 +164,9 @@ for i, frame_name in enumerate(frame_files):
 video.release()
 pred_file.close()
 
-print(f"Video saved:        {output_video}")
-print(f"Frames processed:  {total_frames}")
-print(f"Unique tracks:     {len(track_colors)}")
+print(f"Video saved:{output_video}")
+print(f"Frames processed:{total_frames}")
+print(f"Unique tracks:{len(track_colors)}")
 
 def get_color_for_id(track_id):
     """
