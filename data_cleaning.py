@@ -44,20 +44,13 @@ for _, rows in frame_id_map.items():
 
 unique = np.array(unique)
 
-# 3) REMOVE SHORT TRACKS
-track_lengths = defaultdict(int)
-for row in unique:
-    track_lengths[int(row[1])] += 1
-
-final = [
-    row for row in unique
-    if track_lengths[int(row[1])] >= MIN_TRACK_LENGTH
-]
-
-final = np.array(final)
+# 3) REMOVE SHORT TRACKS - SKIP THIS STEP for temporary IDs
+# Since we're using unique temp IDs per detection, skip track length filtering
+final = unique
 
 # 4) SORT BY FRAME, ID
-final = final[np.lexsort((final[:, 1], final[:, 0]))]
+if len(final) > 0:
+    final = final[np.lexsort((final[:, 1], final[:, 0]))]
 
 with open(CLEAN_FILE, "w") as f:
     for row in final:
@@ -67,5 +60,8 @@ with open(CLEAN_FILE, "w") as f:
             f"{int(row[4])},{int(row[5])}\n"
         )
 
-print(f"Total detections kept: {len(final)}")
-print(f"Total tracks kept: {len(set(final[:,1]))}")
+if len(final) > 0:
+    print(f"Total detections kept: {len(final)}")
+    print(f"Total tracks kept: {len(set(final[:,1]))}")
+else:
+    print("No detections kept after filtering")
