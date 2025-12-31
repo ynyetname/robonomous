@@ -4,15 +4,15 @@ from pathlib import Path
 from config_loader import load_config
 
 class BoTSORTTracker:
-    def __init__(self, device='0', config_path='config.yaml'):
-        # Load configuration
-        config = load_config(config_path)
+    def __init__(self, config_path='config.yaml'):
+        
+        config = load_config(config_path='config.yaml')
         tracker_config = config['tracker']
         
-        # Initialize BoT-SORT tracker with config values
-        self.tracker = BotSort(
+        # Initializing BoT-SORT tracker with config values
+        self.tracker = BotSort(      # Composition 
             reid_weights=Path(tracker_config['reid_weights']),
-            device=device,  
+            device=tracker_config['device'],  
             half=tracker_config['half'],
             track_high_thresh=tracker_config['track_high_thresh'],
             track_low_thresh=tracker_config['track_low_thresh'],
@@ -22,7 +22,7 @@ class BoTSORTTracker:
             appearance_thresh=tracker_config['appearance_thresh'],
             track_buffer=tracker_config['track_buffer'],
             frame_rate=tracker_config['frame_rate']
-        )
+            )
 
     def update(self, detections, frame):
         """
@@ -36,3 +36,5 @@ class BoTSORTTracker:
         dets = np.array(detections)
         tracks = self.tracker.update(dets, frame)
         return tracks
+
+
