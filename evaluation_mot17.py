@@ -65,12 +65,12 @@ summary = mh.compute(
         "num_switches",
         "num_false_positives",
         "num_misses",
-        "num_unique_objects"  # Add this to see total IDs
+        "num_unique_objects" 
     ],
     name="MOT17-04-FRCNN"
 )
 
-# Count unique predicted IDs
+# Counting unique predicted IDs
 unique_pred_ids = len(np.unique(pred[:, 1]))
 unique_gt_ids = len(np.unique(gt[:, 1]))
 
