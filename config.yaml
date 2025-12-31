@@ -2,27 +2,30 @@
 detection:
   model: "yolov8m.pt"
   confidence_threshold: 0.01
-  target_classes: [0]  # Person class
-  
+  target_classes: [0]
+
 # BoT-SORT Tracker Settings
 tracker:
   reid_weights: "clip_market1501.pt"
   device: "0"
   half: false
+
   track_high_thresh: 0.05
   track_low_thresh: 0.01
   new_track_thresh: 0.05
+
   match_thresh: 0.8
   proximity_thresh: 0.8
   appearance_thresh: 0.15
+
   track_buffer: 1200
   frame_rate: 30
-
+  max_time_lost: 60
 # Video Settings
 video:
   fps: 30
   codec: "mp4v"
-  output_video_name: "mot17_clipVitB16(6)_tracked.mp4"
+  output_video_name: "mot17_clipVitB16(10)_tracked.mp4"
 
 # Paths
 paths:
