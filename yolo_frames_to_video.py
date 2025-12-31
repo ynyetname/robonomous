@@ -28,7 +28,7 @@ model = YOLO(model_path)
 print(f" Loaded: {model_path}")
 
 print("\n[2/2] Initializing BoT-SORT tracker")
-tracker = BoTSORTTracker(tracker_config['device'])    
+tracker = BoTSORTTracker(config_path='config.yaml')    
 print("Tracker initialized")
 
 frame_files = sorted([
