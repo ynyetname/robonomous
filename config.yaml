@@ -25,7 +25,9 @@ tracker:
 video:
   fps: 30
   codec: "mp4v"
-  output_video_name: "mot17_clipVitB16(10)_tracked.mp4"
+  output_video_name: "mot17_clipVitB16(1)_tracked.mp4"
+  video_file_path: 0
+  robotics_output_name: "robotics_output.mp4"
 
 # Paths
 paths:
