@@ -14,7 +14,7 @@ tracker:
   track_low_thresh: 0.01
   new_track_thresh: 0.05
 
-  match_thresh: 0.8
+  match_thresh: 0.9
   proximity_thresh: 0.8
   appearance_thresh: 0.15
 
