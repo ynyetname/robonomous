@@ -298,14 +298,14 @@ Example:
 
 ##  Future Improvements
 
-- [ ] Improve tracking accuracy during occlusions and camera angle changes
-- [ ] Enhance real-time webcam detection and tracking performance
-- [ ] Add YOLOv9/YOLOv10 support
-- [ ] Implement DeepSORT tracker for comparison
-- [ ] Support for multiple camera inputs
-- [ ] Docker container for easy deployment
-- [ ] Add more ReID models (OSNet, MGN)
-- [ ] Improve recall with better detection confidence tuning
+- 1. Improve tracking accuracy during occlusions and camera angle changes
+- 2. Enhance real-time webcam detection and tracking performance
+- 3. Add YOLOv9/YOLOv10 support
+- 4. Implement DeepSORT tracker for comparison
+- 5. Support for multiple camera inputs
+- 6. Docker container for easy deployment
+- 7. Add more ReID models (OSNet, MGN)
+- 8. Improve recall with better detection confidence tuning
 
 ---
 
