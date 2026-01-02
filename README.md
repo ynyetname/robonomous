@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/357b8515-b4bc-4ee9-8b61-037c824737d1
 
 [(https://github.com/user-attachments/assets/f76395c7-b3ff-482d-a41a-e095012ac4a2)
 ](https://youtu.be/dT9PS6oNr34)
- *Video showing real-time detection + tracking with ReID*
+> *Video showing real-time detection + tracking with ReID*
 
 ---
 
