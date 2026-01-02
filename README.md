@@ -1,18 +1,5 @@
 #  Robonomous
 
-<!-- Badges -->
-![Python](https://img.shields.io/badge/Python-3.9+-blue. svg)
-![YOLOv8](https://img.shields.io/badge/YOLOv8-8.3.233-green.svg)
-![BoT-SORT](https://img.shields.io/badge/Tracker-BoT--SORT-red.svg)
-![CLIP](https://img.shields.io/badge/ReID-CLIP-purple.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Status-Active-success.svg)
-
-<!-- Performance Badges -->
-![HOTA](https://img.shields.io/badge/HOTA-43.3%25-brightgreen.svg)
-![MOTA](https://img.shields.io/badge/MOTA-37.0%25-yellow.svg)
-![IDF1](https://img.shields.io/badge/IDF1-47.2%25-blue.svg)
-
 ---
 
 **Multi-Object Tracking (MOT) with YOLOv8 Detection and BoT-SORT Tracking**
