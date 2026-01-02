@@ -23,7 +23,7 @@ Real-time object detection and tracking system using YOLOv8 for detection and Bo
 
 ### Detection Results
 
-![YOLOv8 Detection]((https://github.com/user-attachments/assets/6d262815-5383-4727-860d-075de937e549))
+![YOLOv8 Detection](![Image](https://github.com/user-attachments/assets/357b8515-b4bc-4ee9-8b61-037c824737d1))
 
 ### Full Video Demo
 
