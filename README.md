@@ -28,7 +28,8 @@ Real-time object detection and tracking system using YOLOv8 for detection and Bo
 ### Full Video Demo
 
 [(https://github.com/user-attachments/assets/f76395c7-b3ff-482d-a41a-e095012ac4a2)
-](https://youtu.be/dT9PS6oNr34)> *Video showing real-time detection + tracking with ReID*
+](https://youtu.be/dT9PS6oNr34)
+> *Video showing real-time detection + tracking with ReID*
 
 ---
 
