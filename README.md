@@ -6,8 +6,6 @@
 
 Real-time object detection and tracking system using YOLOv8 for detection and BoT-SORT with CLIP-based ReID for robust multi-object tracking.
 
-![Detection Demo](assets/detection_demo. jpg)
-
 ---
 
 ##  Features
@@ -25,7 +23,7 @@ Real-time object detection and tracking system using YOLOv8 for detection and Bo
 
 ### Detection Results
 
-![YOLOv8 Detection](assets/detection_demo.jpg)
+![YOLOv8 Detection]((https://github.com/user-attachments/assets/6d262815-5383-4727-860d-075de937e549))
 
 ### Full Video Demo
 
