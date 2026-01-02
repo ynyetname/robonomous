@@ -1,7 +1,76 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*. egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+
+# Virtual Environment
+venv/
+env/
+.env
+mot_env/
+. venv/
+
+# Model Files (Large!)
+*.pt
+*.pth
+*. onnx
+*.engine
+*.weights
+
+# Video Files (Large!)
 *.mp4
 *.avi
-*.pt
-__pycache__/
-*.jpg
-*.png
+*.mov
+*.mkv
+*.wmv
 
+# Image Files
+*.jpg
+*. jpeg
+*.png
+*.gif
+*. bmp
+*.tiff
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter Notebook
+. ipynb_checkpoints/
+*.ipynb
+
+# Logs & Outputs
+*.log
+logs/
+outputs/
+runs/
+results/
+
+# Dataset (Don't upload!)
+MOT17/
+MOT20/
+datasets/
+data/
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
