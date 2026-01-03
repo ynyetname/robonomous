@@ -123,7 +123,7 @@ robonomous/
 │   └── trackers/
 │       ├── __init__.py
 │       ├── botsort_tracker.py
-│       ├── botsort_clipVitb16_tracker.py
+│       ├── botsort_clipVitb16_tracker.py (i have used)
 │       └── botsort_clipVitH14_tracker.py
 ├── utils/                   # Utility functions
 │   ├── data_cleaning.py
@@ -192,24 +192,7 @@ pip install -r requirements.txt
 
 Edit `configs/configs.yaml`:
 
-### 2. Run Real-time Demo (Webcam)
-
-```bash
-cd demos
-python robotics_demo.py
-```
-
-```yaml
-video: 
-"C:\Users\Ayyan Aftab\Desktop\BYOP\mot17_clipVitB16(0)_tracked.mp4"
-
-Then run:
-
-```bash
-python demos/robotics_demo.py
-```
-
-### 3. Run MOT17 Evaluation
+### 2. Run MOT17 Evaluation
 
 ```bash
 python evaluation/evaluation_mot17.py
@@ -225,7 +208,7 @@ Edit `configs/configs.yaml` to customize:
 ```yaml
 # Detection Settings
 detection:
-  model:  "yolov8m. pt"           # YOLOv8 model (n/s/m/l/x)
+  model:  "yolov8m. pt"           # YOLOv8 model (n/m/l)
   confidence_threshold: 0.01    # Detection confidence
   target_classes: [0]           # 0 = person
 
@@ -251,7 +234,7 @@ video:
 
 | Model | Description | Performance |
 
-| `clip_market1501.pt` | CLIP ViT-B/16 trained on Market1501 | Best |
+| `clip_market1501.pt` | CLIP ViT-B/16 trained on Market1501 | Best (i have used) | 
 | `osnet_x1_0_msmt17.pt` | OSNet trained on MSMT17 | Good |
 | `osnet_x0_25_msmt17.pt` | Lightweight OSNet | Fast |
 
@@ -262,7 +245,7 @@ video:
 | Tracker | File | Description |
 
 | **BoT-SORT** | `botsort_tracker.py` | Basic tracker |
-| **BoT-SORT + CLIP ViT-B/16** | `botsort_clipVitb16_tracker. py` | Enhanced with CLIP |
+| **BoT-SORT + CLIP ViT-B/16** | `botsort_clipVitb16_tracker. py` | Enhanced with CLIP (i have used) |
 | **BoT-SORT + CLIP ViT-H/14** | `botsort_clipVitH14_tracker.py` | High-performance |
 
 ---
@@ -344,5 +327,3 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-
-```
